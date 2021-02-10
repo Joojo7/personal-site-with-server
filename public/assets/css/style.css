@@ -705,6 +705,10 @@ section .container {
   margin-bottom: 30px;
 }
 
+.card-footer {
+  background-color: transparent;
+}
+
 .services .icon-box .icon {
   margin: 0 auto;
   width: 64px;
