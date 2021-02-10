@@ -1,6 +1,6 @@
 
-
 const articleSection = document.getElementById('writing-row')
+const repoSection = document.getElementById('repos')
 
 
 
@@ -13,10 +13,9 @@ function listArticles(message){
   .then(response => response.json())
   .then(
     data => {
-      console.log(data[0])
 
       for (let i = 0; i < data.length; i++) {
-        console.log('data:', data[i].cover_image)
+
         var wrapper= document.createElement('div');
         wrapper.classList.add("col-lg-4") 
         wrapper.classList.add("col-md-6") 
@@ -42,6 +41,43 @@ function listArticles(message){
 
         `
         articleSection.append(wrapper)
+      }
+    }
+    );
+  
+}
+
+
+function listRepos(message){
+  let repos = []
+
+  fetch('https://api.github.com/users/Joojo7/repos')
+  .then(response => response.json())
+  .then(
+    data => {
+      console.log(data[0])
+      for (let i = 0; i < data.length; i++) {
+
+        let desc = data[i].description ? data[i].description : "Interesting repo"
+
+      if(desc.length > 40) desc = desc.substring(0,40) + "...";
+
+        var wrapper= document.createElement('div');
+        wrapper.classList.add("col-lg-4") 
+        wrapper.classList.add("col-md-6") 
+        wrapper.classList.add("d-flex") 
+        wrapper.classList.add("align-items-stretch") 
+        wrapper.innerHTML = `
+        
+
+        <div class="icon-box">
+          <div class="icon"><i class="bx bx-food-menu"></i></div>
+          <h4><a href="${data[i].url}" target="_blank">${data[i].name}</a></h4>
+          <p>${desc}</p>
+        </div>
+
+        `
+        repoSection.append(wrapper)
       }
     }
     );
