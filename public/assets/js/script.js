@@ -69,13 +69,13 @@ function listRepos(message){
         wrapper.classList.add("align-items-stretch") 
         wrapper.innerHTML = `
         
-
+        <a href="${data[i].html_url}" target="_blank">
         <div class="icon-box">
           <div class="icon"><i class="bx bx-food-menu"></i></div>
-          <h4><a href="${data[i].url}" target="_blank">${data[i].name}</a></h4>
+          <h4><a href="${data[i].html_url}" target="_blank">${data[i].name}</a></h4>
           <p>${desc}</p>
         </div>
-
+        </a>
         `
         repoSection.append(wrapper)
       }
