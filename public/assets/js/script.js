@@ -1,28 +1,21 @@
-
-const articleSection = document.getElementById('writing-row')
-const repoSection = document.getElementById('repos')
-
-
-
+const articleSection = document.getElementById("writing-row");
+const repoSection = document.getElementById("repos");
 
 //show message on sender's screen
-function listArticles(message){
-  let articles = []
+function listArticles(message) {
+  let articles = [];
 
-  fetch('https://dev.to/api/articles?username=joojodontoh')
-  .then(response => response.json())
-  .then(
-    data => {
-
+  fetch("https://dev.to/api/articles?username=joojodontoh")
+    .then((response) => response.json())
+    .then((data) => {
       for (let i = 0; i < data.length; i++) {
-
-        var wrapper= document.createElement('div');
-        wrapper.classList.add("col-lg-4") 
-        wrapper.classList.add("col-md-6") 
-        wrapper.classList.add("d-flex") 
-        wrapper.classList.add("align-items-stretch") 
+        var wrapper = document.createElement("div");
+        wrapper.classList.add("col-lg-4");
+        wrapper.classList.add("col-md-6");
+        wrapper.classList.add("d-flex");
+        wrapper.classList.add("align-items-stretch");
         wrapper.innerHTML = `
-        
+
 
           <div class="portfolio-wrap">
 
@@ -32,43 +25,47 @@ function listArticles(message){
             </div>
             <div class="row">
             <div class="card-footer">
-            <small class="text-muted text-right">Last updated: ${new Date(data[i].edited_at).getDate()}-${new Date(data[i].edited_at).getMonth()+1}-${new Date(data[i].edited_at).getFullYear()}</small>
+            <small class="text-muted text-right">Last updated: ${returnDate(
+              data[i].edited_at ?? data[i].created_at
+            )}</small>
           </div>
               <p class="col-md-8 text-left" >${data[i].title}</p>
             </div>
-            
+
           </div>
 
-        `
-        articleSection.append(wrapper)
+        `;
+        articleSection.append(wrapper);
       }
-    }
-    );
-  
+    });
 }
 
+function returnDate(date) {
+  return `${new Date(date).getDate()}-${
+    new Date(date).getMonth() + 1
+  }-${new Date(date).getFullYear()}`;
+}
 
-function listRepos(message){
-  let repos = []
+function listRepos(message) {
+  let repos = [];
 
-  fetch('https://api.github.com/users/Joojo7/repos')
-  .then(response => response.json())
-  .then(
-    data => {
-      console.log(data[0])
+  fetch("https://api.github.com/users/Joojo7/repos")
+    .then((response) => response.json())
+    .then((data) => {
       for (let i = 0; i < data.length; i++) {
+        let desc = data[i].description
+          ? data[i].description
+          : "Interesting repo";
 
-        let desc = data[i].description ? data[i].description : "Interesting repo"
+        if (desc.length > 40) desc = desc.substring(0, 40) + "...";
 
-      if(desc.length > 40) desc = desc.substring(0,40) + "...";
-
-        var wrapper= document.createElement('div');
-        wrapper.classList.add("col-lg-4") 
-        wrapper.classList.add("col-md-6") 
-        wrapper.classList.add("d-flex") 
-        wrapper.classList.add("align-items-stretch") 
+        var wrapper = document.createElement("div");
+        wrapper.classList.add("col-lg-4");
+        wrapper.classList.add("col-md-6");
+        wrapper.classList.add("d-flex");
+        wrapper.classList.add("align-items-stretch");
         wrapper.innerHTML = `
-        
+
         <a href="${data[i].html_url}" target="_blank">
         <div class="icon-box">
           <div class="icon"><i class="bx bx-food-menu"></i></div>
@@ -76,10 +73,8 @@ function listRepos(message){
           <p>${desc}</p>
         </div>
         </a>
-        `
-        repoSection.append(wrapper)
+        `;
+        repoSection.append(wrapper);
       }
-    }
-    );
-  
+    });
 }
